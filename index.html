@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-
 </head>
-
 <body>
-    <header>
-
+    <div class="landing-page">
+        <header>
         <!-- Banner -->
         <div class="banner">
             <!-- GTNavigator Banner -->
@@ -89,28 +86,27 @@
                 </a>
             </div>
         </div>
-    </header>
-
-    <div class="container">
-        <div class="video-section">
-            <video id="video-feed" autoplay playsinline></video>
-            <!-- Add a canvas element with the id 'canvas' -->
-   <canvas id="CanvasId"></canvas>
-
-        </div>
-
-        <div class="info-section">
-            <ul id="object-list">
-                <!-- Detected objects will be dynamically added here -->
-            </ul>
+        </header>
+    </div>
+    
+    <div id="camera-feed-container" class="camera-feed hidden">
+        <!-- Camera feed content -->
+        <div class="container">
+            <div class="video-section">
+                <video id="video-feed" autoplay playsinline></video>
+                <!-- Add a canvas element with the id 'canvas' -->
+                <canvas id="CanvasId"></canvas>
+            </div>
+            <div class="info-section">
+                <ul id="object-list">
+                    <!-- Detected objects will be dynamically added here -->
+                </ul>
+            </div>
         </div>
     </div>
-
+    
     <script type="module" src="script.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
-    <script type="module" src="script.js"></script>
 </body>
-
 </html>
