@@ -106,6 +106,17 @@ document.getElementById('get-started-button').addEventListener('click', async ()
     }
 });
 
+document.getElementById('exit-button').addEventListener('click', () => {
+    const cameraFeedContainer = document.getElementById('camera-feed-container');
+    const landingPage = document.querySelector('.landing-page');
+
+    // Hide the camera feed
+    cameraFeedContainer.style.display = 'none';
+
+    // Show the landing page
+    landingPage.style.display = 'block';
+});
+
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
