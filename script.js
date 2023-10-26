@@ -71,102 +71,40 @@ async function loadCocoSsdModel() {
 }
 
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
-async function requestCameraAccess () {
-  try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter((device) => device.kind === 'videoinput');
 
-      if (videoDevices.length === 2) {
-          // If there are two camera sources, use the back camera (the default)
-          console.log('Accessing the back camera...');
-          setupCamera();
-          document.getElementById('get-started-button').style.display = 'none'; // Hide the button
 
-          // Add the video feed element to cover the content
-          const videoElement = document.createElement('video');
-          videoElement.id = 'video-feed';
-          videoElement.style.position = 'absolute';
-          videoElement.style.top = '0';
-          videoElement.style.left = '0';
-          videoElement.style.width = '100%';
-          videoElement.style.height = '100%';
-          document.body.appendChild(videoElement);
-      } else if (videoDevices.length === 1) {
-          // If there's only one camera, use it
-          console.log('Accessing the camera...');
-          setupCamera();
-          document.getElementById('get-started-button').style.display = 'none'; // Hide the button
-
-          // Add the video feed element to cover the content
-          const videoElement = document.createElement('video');
-          videoElement.id = 'video-feed';
-          videoElement.style.position = 'absolute';
-          videoElement.style.top = '0';
-          videoElement.style.left = '0';
-          videoElement.style.width = '100%';
-          videoElement.style.height = '100%';
-          document.body.appendChild(videoElement);
-      } else if (videoDevices.length > 2) {
-          // If there are more than two camera sources, you can still show the camera selection prompt
-          showCameraSelectionPrompt();
-      } else {
-          // If there's no camera, handle the situation accordingly
-          console.error('No cameras found.');
-          // You can handle this case, e.g., display an error message to the user
-      }
-  } catch (error) {
-      console.error('Error accessing the camera:', error);
-      // Handle the error, e.g., display an error message to the user
-  }
-}
-/*document.getElementById('get-started-button').addEventListener('click', async () => {
+document.getElementById('get-started-button').addEventListener('click', async () => {
     try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+        const container = document.getElementById('camera-feed-container');
+        const videoDevices = await navigator.mediaDevices.enumerateDevices();
 
-        if (videoDevices.length === 2) {
-            // If there are two camera sources, use the back camera (the default)
-            console.log('Accessing the back camera...');
-            setupCamera();
-            document.getElementById('get-started-button').style.display = 'none'; // Hide the button
+        if (videoDevices.length > 0) {
+            // Choose the first video device (you can modify this logic as needed)
+            const videoDevice = videoDevices.find((device) => device.kind === 'videoinput');
 
-            // Add the video feed element to cover the content
-            const videoElement = document.createElement('video');
-            videoElement.id = 'video-feed';
-            videoElement.style.position = 'absolute';
-            videoElement.style.top = '0';
-            videoElement.style.left = '0';
-            videoElement.style.width = '100%';
-            videoElement.style.height = '100%';
-            document.body.appendChild(videoElement);
-        } else if (videoDevices.length === 1) {
-            // If there's only one camera, use it
-            console.log('Accessing the camera...');
-            setupCamera();
-            document.getElementById('get-started-button').style.display = 'none'; // Hide the button
-
-            // Add the video feed element to cover the content
-            const videoElement = document.createElement('video');
-            videoElement.id = 'video-feed';
-            videoElement.style.position = 'absolute';
-            videoElement.style.top = '0';
-            videoElement.style.left = '0';
-            videoElement.style.width = '100%';
-            videoElement.style.height = '100%';
-            document.body.appendChild(videoElement);
-        } else if (videoDevices.length > 2) {
-            // If there are more than two camera sources, you can still show the camera selection prompt
-            showCameraSelectionPrompt();
+            if (videoDevice) {
+                console.log('Accessing the camera...');
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+                const videoElement = document.createElement('video');
+                videoElement.id = 'video-feed';
+                videoElement.style.width = '100%';
+                videoElement.style.height = '100%';
+                videoElement.autoplay = true;
+                container.appendChild(videoElement);
+                videoElement.srcObject = stream;
+                setupCamera();
+                document.getElementById('get-started-button').style.display = 'none'; // Hide the button
+            } else {
+                console.error('No video devices found.');
+            }
         } else {
-            // If there's no camera, handle the situation accordingly
             console.error('No cameras found.');
-            // You can handle this case, e.g., display an error message to the user
         }
     } catch (error) {
         console.error('Error accessing the camera:', error);
         // Handle the error, e.g., display an error message to the user
     }
-});*/
+});
 
 
 function initializeDetectionRules() {
