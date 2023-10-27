@@ -91,10 +91,11 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 videoElement.id = 'video-feed';
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
-                videoElement.parentNode.style.display = "block"
+                videoElement.style.display = 'block'; // Show the video element
                 videoElement.autoplay = true;
                 container.appendChild(videoElement);
                 videoElement.srcObject = stream;
+                videoElement.parentNode.style.display = "block"; // Show the container
                 setupCamera();
                 document.getElementById('get-started-button').style.display = 'none'; // Hide the button
             } else {
@@ -108,7 +109,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         // Handle the error, e.g., display an error message to the user
     }
 });
-
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
