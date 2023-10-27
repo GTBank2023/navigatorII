@@ -92,6 +92,7 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 videoElement.autoplay = true;
                 container.appendChild(videoElement);
                 videoElement.srcObject = stream;
+                setupCamera();
                 document.getElementById('get-started-button').style.display = 'none'; // Hide the button
             } else {
                 console.error('No video devices found.');
