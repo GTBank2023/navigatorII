@@ -85,10 +85,13 @@ document.getElementById('get-started-button').addEventListener('click', async ()
             if (videoDevice) {
                 console.log('Accessing the camera...');
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+
+                // Create the video element and set its display style to "block"
                 const videoElement = document.createElement('video');
                 videoElement.id = 'video-feed';
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
+                videoElement.style.display = 'block'; // Show the video element
                 videoElement.autoplay = true;
                 container.appendChild(videoElement);
                 videoElement.srcObject = stream;
@@ -104,17 +107,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         console.error('Error accessing the camera:', error);
         // Handle the error, e.g., display an error message to the user
     }
-});
-
-document.getElementById('exit-button').addEventListener('click', () => {
-    const cameraFeedContainer = document.getElementById('camera-feed-container');
-    const landingPage = document.querySelector('.landing-page');
-
-    // Hide the camera feed
-    cameraFeedContainer.style.display = 'none';
-
-    // Show the landing page
-    landingPage.style.display = 'block';
 });
 
 
