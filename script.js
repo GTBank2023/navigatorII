@@ -72,7 +72,6 @@ async function loadCocoSsdModel() {
 
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
 
-
 // Existing code block
 document.getElementById('get-started-button').addEventListener('click', async () => {
     try {
@@ -80,8 +79,8 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         const videoDevices = await navigator.mediaDevices.enumerateDevices();
 
         if (videoDevices.length > 0) {
-            // Choose the back camera if available, or the first camera if not
-            let videoDevice = videoDevices.find((device) => device.kind === 'videoinput' && device.label.includes('back')) || videoDevices.find((device) => device.kind === 'videoinput');
+            // Choose the back camera as the default option
+            let videoDevice = videoDevices.find((device) => device.kind === 'videoinput');
 
             if (!videoDevice) {
                 console.error('No video devices found.');
@@ -110,7 +109,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         // Handle the error, e.g., display an error message to the user
     }
 });
-
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
