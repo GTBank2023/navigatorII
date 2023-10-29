@@ -123,7 +123,8 @@ document.getElementById('get-started-button').addEventListener('click', async ()
 
                 // Add an event listener for the camera toggle button
                 document.getElementById('toggle-camera-button').addEventListener('click', async () => {
-                    videoDevice = videoDevices.find((device) => device.kind === 'videoinput' && device.deviceId !== videoDevice.deviceId);
+              videoDevice = videoDevices.find((device) => device.kind === 'videoinput' && device.deviceId !== videoDevice.deviceId);
+
 
                     if (videoDevice) {
                         console.log('Switching camera...');
