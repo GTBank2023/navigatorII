@@ -3,15 +3,34 @@ let cocoSsdModel; // Declare cocoSsdModel as a global variable
 let detectedAreas;  // Initialize the variable
 let predictions;  // Initialize the predictions variable at a global scope
 
-// Event listener to start the system when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const getStartedButton = document.querySelector('.get-started-button');
+// Add an event listener to a button for switching the camera
+document.getElementById('toggle-camera-button').addEventListener('click', async () => {
+    try {
+        const videoElement = document.getElementById('video-feed');
+        const videoDevices = await navigator.mediaDevices.enumerateDevices();
 
-    getStartedButton.addEventListener('click', () => {
-        console.log('Button clicked. Requesting camera access...');
-        requestCameraAccess();  // Add this function to handle camera access
-    });
+        if (videoDevices.length > 0) {
+            const videoDevice = videoDevices.find((device) => (
+                device.kind === 'videoinput' &&
+                ((isFrontCamera && device.label.includes('front')) || (!isFrontCamera && !device.label.includes('front')))
+            ));
+
+            if (videoDevice) {
+                console.log('Switching camera...');
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+                videoElement.srcObject = stream;
+                isFrontCamera = !isFrontCamera; // Toggle the camera
+            } else {
+                console.error('No suitable camera found.');
+            }
+        } else {
+            console.error('No cameras found.');
+        }
+    } catch (error) {
+        console.error('Error switching camera:', error);
+    }
 });
+
 
 /// Define videoElement
 const videoElement = document.getElementById('video-feed');
