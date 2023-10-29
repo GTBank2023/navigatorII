@@ -110,6 +110,46 @@ document.getElementById('get-started-button').addEventListener('click', async ()
     }
 });
 
+let isFrontCamera = true; // Initial camera
+
+document.getElementById('toggle-camera-button').addEventListener('click', async () => {
+    try {
+        const videoElement = document.getElementById('video-feed');
+        const videoDevices = await navigator.mediaDevices.enumerateDevices();
+
+        if (videoDevices.length > 0) {
+            const videoDevice = videoDevices.find((device) => (
+                device.kind === 'videoinput' &&
+                ((isFrontCamera && device.label.includes('front')) || (!isFrontCamera && !device.label.includes('front')))
+            ));
+
+            if (videoDevice) {
+                console.log('Switching camera...');
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+                videoElement.srcObject = stream;
+                isFrontCamera = !isFrontCamera; // Toggle the camera
+            } else {
+                console.error('No suitable camera found.');
+            }
+        } else {
+            console.error('No cameras found.');
+        }
+    } catch (error) {
+        console.error('Error switching camera:', error);
+    }
+});
+
+document.getElementById('exit-camera-button').addEventListener('click', () => {
+    const cameraFeedContainer = document.getElementById('camera-feed-container');
+    const videoElement = document.getElementById('video-feed');
+
+    if (cameraFeedContainer.style.display !== 'none') {
+        cameraFeedContainer.style.display = 'none';
+        videoElement.srcObject = null; // Stop the video stream
+    }
+});
+
+
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
   DetectionRules = {
