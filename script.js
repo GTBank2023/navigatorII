@@ -100,14 +100,16 @@ document.getElementById('get-started-button').addEventListener('click', async ()
 
         if (videoDevices.length > 0) {
             // Choose the first video device (you can modify this logic as needed)
-            const videoDevice = videoDevices.find((device) => device.kind === 'videoinput');
+            let videoDevice = videoDevices.find((device) => device.kind === 'videoinput');
 
-            if (videoDevice) {
+            if (!videoDevice) {
+                console.error('No video devices found.');
+            } else {
                 console.log('Accessing the camera...');
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+                let stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
 
                 // Create the video element and set its display style to "block"
-                const videoElement = document.createElement('video');
+                let videoElement = document.createElement('video');
                 videoElement.id = 'video-feed';
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
@@ -115,17 +117,22 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 videoElement.autoplay = true;
                 container.appendChild(videoElement);
                 videoElement.srcObject = stream;
-                videoElement.parentNode.style.display = "block"; // Show the container
+                videoElement.parentNode.style.display = 'block'; // Show the container
                 setupCamera();
                 document.getElementById('get-started-button').style.display = 'none'; // Hide the button
 
                 // Add an event listener for the camera toggle button
                 document.getElementById('toggle-camera-button').addEventListener('click', async () => {
-                    // Implement the logic for switching the camera here, similar to what I provided earlier
-                });
+                    videoDevice = videoDevices.find((device) => device.kind === 'videoinput' && device.deviceId !== videoDevice.deviceId);
 
-            } else {
-                console.error('No video devices found.');
+                    if (videoDevice) {
+                        console.log('Switching camera...');
+                        stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+                        videoElement.srcObject = stream;
+                    } else {
+                        console.error('No other camera found.');
+                    }
+                });
             }
         } else {
             console.error('No cameras found.');
@@ -135,7 +142,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         // Handle the error, e.g., display an error message to the user
     }
 });
-
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
