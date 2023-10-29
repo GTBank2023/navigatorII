@@ -92,6 +92,7 @@ async function loadCocoSsdModel() {
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
 
 
+// Existing code block
 document.getElementById('get-started-button').addEventListener('click', async () => {
     try {
         const container = document.getElementById('camera-feed-container');
@@ -117,6 +118,12 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 videoElement.parentNode.style.display = "block"; // Show the container
                 setupCamera();
                 document.getElementById('get-started-button').style.display = 'none'; // Hide the button
+
+                // Add an event listener for the camera toggle button
+                document.getElementById('toggle-camera-button').addEventListener('click', async () => {
+                    // Implement the logic for switching the camera here, similar to what I provided earlier
+                });
+
             } else {
                 console.error('No video devices found.');
             }
@@ -128,6 +135,7 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         // Handle the error, e.g., display an error message to the user
     }
 });
+
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
