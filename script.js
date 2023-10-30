@@ -110,6 +110,42 @@ document.getElementById('get-started-button').addEventListener('click', async ()
     }
 });
 
+const switchToFrontCameraButton = document.getElementById('switch-to-front-camera');
+const switchToRearCameraButton = document.getElementById('switch-to-rear-camera');
+const videoElement = document.getElementById('video-feed');
+
+let currentCamera = 'environment'; // 'user' for front camera, 'environment' for rear camera
+
+switchToFrontCameraButton.addEventListener('click', () => {
+    if (currentCamera === 'environment') {
+        currentCamera = 'user';
+        switchCamera(currentCamera);
+    }
+});
+
+switchToRearCameraButton.addEventListener('click', () => {
+    if (currentCamera === 'user') {
+        currentCamera = 'environment';
+        switchCamera(currentCamera);
+    }
+});
+
+function switchCamera(camera) {
+    if (videoElement.srcObject) {
+        videoElement.srcObject.getTracks().forEach(track => track.stop());
+    }
+
+    navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: camera } })
+        .then(stream => {
+            videoElement.srcObject = stream;
+        })
+        .catch(error => {
+            console.error('Error accessing camera:', error);
+        });
+}
+
+
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
   DetectionRules = {
