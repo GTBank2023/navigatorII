@@ -112,7 +112,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
 
 const switchToFrontCameraButton = document.getElementById('switch-to-front-camera');
 const switchToRearCameraButton = document.getElementById('switch-to-rear-camera');
-const videoElement = document.getElementById('video-feed');
 
 let currentCamera = 'environment'; // 'user' for front camera, 'environment' for rear camera
 
