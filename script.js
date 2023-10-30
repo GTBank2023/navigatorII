@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-/// Define videoElement
+// Define videoElement as a global variable
 const videoElement = document.getElementById('video-feed');
 console.log('Video feed is showing');
 
