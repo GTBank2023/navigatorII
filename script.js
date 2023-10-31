@@ -72,6 +72,8 @@ async function loadCocoSsdModel() {
 
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
 
+let videoElement; // Define videoElement in a broader scope
+
 // Existing code block
 document.getElementById('get-started-button').addEventListener('click', async () => {
     try {
@@ -89,7 +91,7 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 let stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
 
                 // Create the video element and set its display style to "block"
-                let videoElement = document.createElement('video');
+                videoElement = document.createElement('video'); // Use the broader-scoped variable
                 videoElement.id = 'video-feed';
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
@@ -143,7 +145,6 @@ function switchCamera(camera) {
             console.error('Error accessing camera:', error);
         });
 }
-
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
