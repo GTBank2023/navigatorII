@@ -114,7 +114,6 @@ document.getElementById('get-started-button').addEventListener('click', async ()
 
 const frontCameraButton = document.getElementById('switch-to-front-camera');
 const backCameraButton = document.getElementById('switch-to-back-camera');
-const videoElement = document.getElementById('video-feed');
 
 frontCameraButton.addEventListener('click', async () => {
     try {
