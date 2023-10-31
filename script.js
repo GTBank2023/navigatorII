@@ -3,6 +3,8 @@ let cocoSsdModel; // Declare cocoSsdModel as a global variable
 let detectedAreas;  // Initialize the variable
 let predictions;  // Initialize the predictions variable at a global scope
 
+const container = document.getElementById('camera-feed-container');
+
 // Event listener to start the system when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     const getStartedButton = document.querySelector('.get-started-button');
@@ -89,8 +91,8 @@ document.getElementById('get-started-button').addEventListener('click', async ()
                 let stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
 
                 // Create the video element and set its display style to "block"
-                let videoElement = document.createElement('video');
-                videoElement.id = 'video-feed';
+               const videoElement = document.createElement('video');
+               videoElement.id = 'video-feed';
                 videoElement.style.width = '100%';
                 videoElement.style.height = '100%';
                 videoElement.style.display = 'block'; // Show the video element
@@ -109,6 +111,46 @@ document.getElementById('get-started-button').addEventListener('click', async ()
         // Handle the error, e.g., display an error message to the user
     }
 });
+
+// Function to switch the camera
+async function switchCamera() {
+    const videoDevices = await navigator.mediaDevices.enumerateDevices();
+    let selectedDevice = null;
+
+    for (const device of videoDevices) {
+        if (device.kind === 'videoinput') {
+            // Check for a back camera or any other criteria you prefer
+            if (device.label.toLowerCase().includes('back')) {
+                selectedDevice = device;
+                break;
+            }
+        }
+    }
+
+    if (selectedDevice) {
+        // Access the camera using the selected device
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedDevice.deviceId } });
+        videoElement.srcObject = stream;
+    } else {
+        console.error('No suitable camera found for switching.');
+    }
+}
+
+// Create a button for camera switching
+const cameraSwitchButton = document.createElement('button');
+cameraSwitchButton.textContent = 'Switch Camera'; // You can style this button as needed
+
+// Position the button within the camera video feed
+cameraSwitchButton.style.position = 'absolute';
+cameraSwitchButton.style.top = '10px'; // Adjust the position
+cameraSwitchButton.style.left = '10px'; // Adjust the position
+
+// Add the button to the same container as the video feed
+container.appendChild(cameraSwitchButton);
+
+// Add an event listener for the camera switching button
+cameraSwitchButton.addEventListener('click', switchCamera);
+
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
