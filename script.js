@@ -72,7 +72,6 @@ async function loadCocoSsdModel() {
 
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
 
-let videoElement; // Define videoElement in a broader scope
 
 // Existing code block
 document.getElementById('get-started-button').addEventListener('click', async () => {
