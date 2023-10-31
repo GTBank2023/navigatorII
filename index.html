@@ -97,6 +97,7 @@
                 <!-- Add a canvas element with the id 'canvas' -->
                 <canvas id="CanvasId"></canvas>
             </div>
+             <button id="toggle-camera-button">Toggle Camera</button>
             <div class="info-section">
                 <ul id="object-list">
                     <!-- Detected objects will be dynamically added here -->
@@ -105,16 +106,6 @@
         </div>
     </div>
 
-     <div class="video-section">
-    <video id="video-feed" autoplay playsinline></video>
-    <!-- Add custom camera switch controls -->
-    <div class="camera-controls">
-        <div id="switch-to-front-camera" class="camera-control">&#8592;</div>
-       <div id="switch-to-rear-camera" class="camera-control">&#8594;</div>
-    </div>
-    <canvas id="CanvasId"></canvas>
-</div>
-     
     <script type="module" src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
