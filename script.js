@@ -72,78 +72,49 @@ async function loadCocoSsdModel() {
 
 //loadCocoSsdModel(); // Call the async function to load the Coco-SSD model
 
-// Existing code block
 document.getElementById('get-started-button').addEventListener('click', async () => {
     try {
         const container = document.getElementById('camera-feed-container');
         const videoDevices = await navigator.mediaDevices.enumerateDevices();
+        let videoDevice; // Declare a variable to store the selected video device
 
-        if (videoDevices.length > 0) {
-            // Choose the back camera if available, or the first camera if not
-            let videoDevice = videoDevices.find((device) => device.kind === 'videoinput' && device.label.includes('back')) || videoDevices.find((device) => device.kind === 'videoinput');
-
-            if (!videoDevice) {
-                console.error('No video devices found.');
-            } else {
-                console.log('Accessing the camera...');
-                let stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
-
-                // Create the video element and set its display style to "block"
-                let videoElement = document.createElement('video');
-                videoElement.id = 'video-feed';
-                videoElement.style.width = '100%';
-                videoElement.style.height = '100%';
-                videoElement.style.display = 'block'; // Show the video element
-                videoElement.autoplay = true;
-                container.appendChild(videoElement);
-                videoElement.srcObject = stream;
-                videoElement.parentNode.style.display = 'block'; // Show the container
-                setupCamera();
-                document.getElementById('get-started-button').style.display = 'none'; // Hide the button
+        for (const device of videoDevices) {
+            if (device.kind === 'videoinput') {
+                if (device.label.toLowerCase().includes('back')) {
+                    videoDevice = device;
+                    break; // Exit the loop when a back camera is found
+                }
             }
+        }
+
+        if (!videoDevice) {
+            console.error('No back camera found; using the default camera.');
+            videoDevice = videoDevices.find((device) => device.kind === 'videoinput');
+        }
+
+        if (!videoDevice) {
+            console.error('No video devices found.');
         } else {
-            console.error('No cameras found.');
+            console.log('Accessing the camera...');
+            let stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: videoDevice.deviceId } });
+
+            // Create the video element and set its display style to "block"
+            let videoElement = document.createElement('video');
+            videoElement.style.width = '100%';
+            videoElement.style.height = '100%';
+            videoElement.style.display = 'block'; // Show the video element
+            videoElement.autoplay = true;
+            container.appendChild(videoElement);
+            videoElement.srcObject = stream;
+            videoElement.parentNode.style.display = 'block'; // Show the container
+            setupCamera();
+            document.getElementById('get-started-button').style.display = 'none'; // Hide the button
         }
     } catch (error) {
         console.error('Error accessing the camera:', error);
         // Handle the error, e.g., display an error message to the user
     }
 });
-
-const switchToFrontCameraButton = document.getElementById('switch-to-front-camera');
-const switchToRearCameraButton = document.getElementById('switch-to-rear-camera');
-
-let currentCamera = 'environment'; // 'user' for front camera, 'environment' for rear camera
-
-switchToFrontCameraButton.addEventListener('click', () => {
-    if (currentCamera === 'environment') {
-        currentCamera = 'user';
-        switchCamera(currentCamera);
-    }
-});
-
-switchToRearCameraButton.addEventListener('click', () => {
-    if (currentCamera === 'user') {
-        currentCamera = 'environment';
-        switchCamera(currentCamera);
-    }
-});
-
-function switchCamera(camera) {
-    if (videoElement.srcObject) {
-        videoElement.srcObject.getTracks().forEach(track => track.stop());
-    }
-
-    navigator.mediaDevices
-        .getUserMedia({ video: { facingMode: camera } })
-        .then(stream => {
-            videoElement.srcObject = stream;
-        })
-        .catch(error => {
-            console.error('Error accessing camera:', error);
-        });
-}
-
 
 function initializeDetectionRules() {
   // Initialize DetectionRules based on your predictions logic
