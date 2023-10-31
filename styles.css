@@ -38,17 +38,44 @@ body {
     display: none;
 }
 
-/* Position the button container within the camera feed container */
-#camera-feed-container {
-    position: relative;
+.camera-selection-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 300px;
+    text-align: center;
 }
 
-/* Position the buttons as desired within the camera feed container */
-#camera-control-overlay {
-    position: absolute;
-    top: 10px; /* Adjust the position as needed */
-    left: 10px; /* Adjust the position as needed */
+.camera-selection-modal label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
+
+.camera-selection-modal select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.camera-selection-modal button {
+    background: #0074e0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.camera-selection-modal button:hover {
+    background: #005fb2;
+}
+
 
 .video-container {
     width: 100vw;
@@ -122,6 +149,7 @@ body {
 /* Onboarding Tutorial Video */
 /* Add your styles for the video iframe here */
 
+/* Get Started Button */
 .get-started-button {
     background-color: #dc4405;
     color: white;
@@ -131,14 +159,17 @@ body {
     font-size: 18px; /* Adjust the font size as needed */
     cursor: pointer;
     transition: background-color 0.3s ease;
-    z-index: 999; /* A higher z-index value to make it accessible */
+    z-index: 200;
     position: relative;
+}
+
+.get-started-button {
+    z-index: 999; /* A higher z-index value to make it accessible */
 }
 
 .get-started-button:hover {
     background-color: #dc4726; /* Orange 2 */
 }
-
 
 .camera-feed {
     position: fixed;
