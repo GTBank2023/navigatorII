@@ -38,26 +38,44 @@ body {
     display: none;
 }
 
-/* Camera switch controls styles */
-.camera-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px;
+.camera-selection-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 300px;
+    text-align: center;
 }
 
-.camera-control {
-    font-size: 30px; /* Adjust the font size as needed */
-    cursor: pointer;
+.camera-selection-modal label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.camera-selection-modal select {
+    width: 100%;
     padding: 10px;
-    border: 2px solid #000; /* Add a border for better visibility */
-    border-radius: 50%; /* Make the controls circular */
-    background-color: #fff; /* Control background color */
+    margin-bottom: 20px;
 }
 
-.camera-control:hover {
-    background-color: #ccc; /* Change the background color on hover */
+.camera-selection-modal button {
+    background: #0074e0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
 }
+
+.camera-selection-modal button:hover {
+    background: #005fb2;
+}
+
 
 .video-container {
     width: 100vw;
