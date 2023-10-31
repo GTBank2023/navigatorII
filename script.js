@@ -59,7 +59,6 @@ async function loadCocoSsdModel() {
             classes.forEach((className, index) => {
                 classIndexMap[className] = index;
             });
-
             detectedAreas = await detectObjects();  // Assuming detectObjects() returns a Promise that resolves to the detected areas
 
            loadModelAndStartSystem(); // Call loadModelAndStartSystem after the model is loaded and detectedAreas is initialized
