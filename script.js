@@ -112,44 +112,37 @@ document.getElementById('get-started-button').addEventListener('click', async ()
     }
 });
 
-// Function to switch the camera
-async function switchCamera() {
-    const videoDevices = await navigator.mediaDevices.enumerateDevices();
-    let selectedDevice = null;
-
-    for (const device of videoDevices) {
-        if (device.kind === 'videoinput') {
-            // Check for a back camera or any other criteria you prefer
-            if (device.label.toLowerCase().includes('back')) {
-                selectedDevice = device;
-                break;
-            }
+frontCameraButton.addEventListener('click', async () => {
+    try {
+        const videoDevices = await navigator.mediaDevices.enumerateDevices();
+        const frontCamera = videoDevices.find((device) => device.kind === 'videoinput' && device.label.toLowerCase().includes('front'));
+        
+        if (frontCamera) {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: frontCamera.deviceId } });
+            videoElement.srcObject = stream;
+        } else {
+            console.error('No front camera found for switching.');
         }
+    } catch (error) {
+        console.error('Error switching to front camera:', error);
     }
+});
 
-    if (selectedDevice) {
-        // Access the camera using the selected device
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedDevice.deviceId } });
-        videoElement.srcObject = stream;
-    } else {
-        console.error('No suitable camera found for switching.');
+backCameraButton.addEventListener('click', async () => {
+    try {
+        const videoDevices = await navigator.mediaDevices.enumerateDevices();
+        const backCamera = videoDevices.find((device) => device.kind === 'videoinput' && device.label.toLowerCase().includes('back'));
+        
+        if (backCamera) {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: backCamera.deviceId } });
+            videoElement.srcObject = stream;
+        } else {
+            console.error('No back camera found for switching.');
+        }
+    } catch (error) {
+        console.error('Error switching to back camera:', error);
     }
-}
-
-// Create a button for camera switching
-const cameraSwitchButton = document.createElement('button');
-cameraSwitchButton.textContent = 'Switch Camera'; // You can style this button as needed
-
-// Position the button within the camera video feed
-cameraSwitchButton.style.position = 'absolute';
-cameraSwitchButton.style.top = '10px'; // Adjust the position
-cameraSwitchButton.style.left = '10px'; // Adjust the position
-
-// Add the button to the same container as the video feed
-container.appendChild(cameraSwitchButton);
-
-// Add an event listener for the camera switching button
-cameraSwitchButton.addEventListener('click', switchCamera);
+});
 
 
 function initializeDetectionRules() {
